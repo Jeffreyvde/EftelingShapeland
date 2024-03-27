@@ -17,7 +17,7 @@ class Park:
     """ Park simulation class """
 
     def __init__(self, attraction_list, activity_list, plot_range, version=1.0, random_seed=0, verbosity=0):
-        """ 
+        """
         Required Inputs:
             attraction_list: list of attractions dictionaries
             activity_list: list of activity dictionaries
@@ -34,6 +34,11 @@ class Park:
         self.random_seed = random_seed
         self.version = version
         self.verbosity = verbosity
+
+        self.expected_wait_times = {attraction["name"]: attraction["expected_wait_time"] for attraction in self.attraction_list}
+        # self.wait_time_mapping = {attraction["name"]: attraction["expected_wait_time"] for attraction in attraction_list}
+
+
 
         # dynamic
         self.schedule = {}
@@ -327,42 +332,49 @@ class Park:
             plt.close()
 
     @staticmethod
-    def make_barplot(dict_list, x, y, hue, y_max, title, location, estimator=None, show=False):
+    def make_barplot(dict_list, dict_list_2, x, y, hue, y_max, title, location, estimator=None, show=False):
         """ Create a hued barplot derived from a list of dictionaries """
-
         df = pd.DataFrame(dict_list)
-        plt.figure(figsize=(15, 8))
-        if estimator:
-            ax = sns.barplot(data=df, x=x, y=y, hue=hue, ci=None, estimator=estimator)
-        else:
-            ax = sns.barplot(data=df, x=x, y=y, hue=hue)
-        ax.set(title=title)
-        if y_max:
-            ax.set(ylim=(0, y_max))
-        plt.savefig(location, transparent=False, facecolor="white", bbox_inches="tight")
-        plt.savefig(f"{location} Transparent", transparent=True, bbox_inches="tight")
-        plt.show()
-        if show and not estimator:
-            print(
-                tabulate(
-                    df.sort_values(hue),
-                    headers='keys',
-                    tablefmt='psql',
-                    showindex=False,
-                    floatfmt=('.2f')
+    
+        if dict_list_2 is not []:
+            # df['Expected Wait Times'] = df['name'].map(Park.wait_time_mapping)
+            # Apply expected wait times based on the type of queue
+            df["Expected Wait Time"] = df.apply(lambda row: dict_list_2[row["Attraction"]] if row["Queue Type"] == "Standby" else 0, axis=1)
+            df["Wait Time Difference"] = df["Expected Wait Time"] - df["Average Wait Time"]
+
+            # df.insert(2,"Expected Wait Times", dict_list_2, True)
+            plt.figure(figsize=(35, 8))
+            if estimator:
+                ax = sns.barplot(data=df, x=x, y=y, hue=hue, ci=None, estimator=estimator)
+            else:
+                ax = sns.barplot(data=df, x=x, y=y, hue=hue)
+            ax.set(title=title)
+            if y_max:
+                ax.set(ylim=(0, y_max))
+            plt.savefig(location, transparent=False, facecolor="white", bbox_inches="tight")
+            plt.savefig(f"{location} Transparent", transparent=True, bbox_inches="tight")
+            plt.show()
+            if show and not estimator:
+                print(
+                    tabulate(
+                        df.sort_values(hue),
+                        headers='keys',
+                        tablefmt='psql',
+                        showindex=False,
+                        floatfmt=('.2f')
+                    )
                 )
-            )
-        if show and estimator == sum:
-            print(
-                tabulate(
-                    df.groupby(x).sum().reset_index(),
-                    headers='keys',
-                    tablefmt='psql',
-                    showindex=False,
+            if show and estimator == sum:
+                print(
+                    tabulate(
+                        df.groupby(x).sum().reset_index(),
+                        headers='keys',
+                        tablefmt='psql',
+                        showindex=False,
+                    )
                 )
-            )
-        if not show:
-            plt.close()
+            if not show:
+                plt.close()
 
     def make_plots(self, show=False):
         """ Plots key park information, save to version folder """
@@ -387,6 +399,7 @@ class Park:
                 exp_queue_wait_time.append({"Time": time, "Minutes": val, "Attraction": attraction_name})
 
         avg_queue_wait_time = []
+        
         for attraction_name, attraction in self.attractions.items():
             queue_wait_list = [
                 val for time, val in attraction.history["queue_wait_time"].items()
@@ -395,7 +408,7 @@ class Park:
             exp_queue_wait_list = [
                 val for time, val in attraction.history["exp_queue_wait_time"].items()
                 if time <= self.park_close
-            ]
+            ]            
             avg_queue_wait_time.append(
                 {
                     "Attraction": attraction_name,
@@ -559,6 +572,7 @@ class Park:
 
         self.make_barplot(
             dict_list=avg_queue_wait_time,
+            dict_list_2=self.expected_wait_times,
             x="Attraction",
             y="Average Wait Time",
             hue="Queue Type",
@@ -578,6 +592,7 @@ class Park:
 
         self.make_barplot(
             dict_list=attraction_density,
+            dict_list_2=[],
             x="Attraction",
             y="Visits",
             hue=None,
@@ -601,6 +616,7 @@ class Park:
                     "Type": "Redeemed"
                 }
             ],
+            dict_list_2=[],
             x="Expedited Passes",
             y="Total Passes",
             hue="Type",
@@ -630,6 +646,7 @@ class Park:
                     "Type": "No Preference"
                 },
             ],
+            dict_list_2=[],
             x="Age Class",
             y="Agents",
             hue="Type",
