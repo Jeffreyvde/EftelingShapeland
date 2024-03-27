@@ -79,7 +79,7 @@ class Park:
             total_hour_agents = total_daily_agents * arrival_pct * 0.01  # convert integer pct to decimal
             expected_minute_agents = total_hour_agents / 60
 
-            # enforces randomness across hours but retains reproducibilty
+            # enforces randomness across hours but retains reproducibility
             rng = np.random.default_rng(self.random_seed + hour)
             minute_arrivals = list(rng.poisson(lam=expected_minute_agents, size=60))
 
@@ -87,7 +87,7 @@ class Park:
                 exact_minute = hour * 60 + minute
                 self.schedule.update({exact_minute: arrivals})
 
-        # enfore perfect arrivals
+        # enforce perfect arrivals
         random.seed(self.random_seed)
         if perfect_arrivals:
             actual_total_daily_agents = sum(self.schedule.values())
