@@ -18,8 +18,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "ride_enthusiast": {
         "stay_time_preference": 540,
         "allow_repeats": True,
-        "attraction_preference": 0.6,
-        "wait_threshold":480,
+        "attraction_preference": 0.8, #0.6
+        "wait_threshold":60, #480
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0
@@ -28,8 +28,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "ride_favorer": {
         "stay_time_preference": 480,
         "allow_repeats": True,
-        "attraction_preference": 0.5,
-        "wait_threshold": 420,
+        "attraction_preference": 0.8, #0.5
+        "wait_threshold": 40, #420
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0
@@ -38,8 +38,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "park_tourer": {
         "stay_time_preference": 420,
         "allow_repeats": False,
-        "attraction_preference": 0.4, 
-        "wait_threshold": 360,
+        "attraction_preference": 0.8, #0.4
+        "wait_threshold": 25, #360
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0
@@ -48,8 +48,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "park_visitor": {
         "stay_time_preference": 360,
         "allow_repeats": False,
-        "attraction_preference": 0.3,
-        "wait_threshold": 240,
+        "attraction_preference": 0.8, #0.3
+        "wait_threshold": 15, #240
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0
@@ -58,8 +58,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "activity_favorer": {
         "stay_time_preference": 300,
         "allow_repeats": False,
-        "attraction_preference": 0.2,
-        "wait_threshold": 180,
+        "attraction_preference": 0.3, #0.2
+        "wait_threshold": 15, #180
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0
@@ -68,8 +68,8 @@ BEHAVIOR_ARCHETYPE_PARAMETERS = {
     "activity_enthusiast": {
         "stay_time_preference": 240,
         "allow_repeats": False,
-        "attraction_preference": 0.2,
-        "wait_threshold": 90,
+        "attraction_preference": 0.3, #0.2
+        "wait_threshold": 5, #90
         "percent_no_child_rides": 0.0,
         "percent_no_adult_rides": 1.0,
         "percent_no_preference": 0.0

@@ -14,15 +14,15 @@ class Activity:
         self.history = {} 
         self.random_seed = random_seed
 
-        if (
-            type(self.activity_characteristics["popularity"]) != int 
-            or self.activity_characteristics["popularity"] < 0
-            or self.activity_characteristics["popularity"] > 10
-        ):
-            raise AssertionError(
-                f"activity {self.activity_characteristics['name']} 'popularity' value must be an integer between"
-                "1 and 10"
-            )
+        # if (
+        #     type(self.activity_characteristics["popularity"]) != int 
+        #     or self.activity_characteristics["popularity"] < 0
+        #     or self.activity_characteristics["popularity"] > 10
+        # ):
+        #     raise AssertionError(
+        #         f"activity {self.activity_characteristics['name']} 'popularity' value must be an integer between"
+        #         "1 and 10"
+        #     )
         self.initialize_activity()
 
     

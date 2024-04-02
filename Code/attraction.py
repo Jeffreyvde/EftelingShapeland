@@ -11,15 +11,15 @@ class Attraction:
         self.state = {}  # characterizes attractions current state
         self.history = {}
 
-        if (
-                type(self.attraction_characteristics["popularity"]) != int
-                or self.attraction_characteristics["popularity"] < 1
-                or self.attraction_characteristics["popularity"] > 10
-        ):
-            raise AssertionError(
-                f"Attraction {self.attraction_characteristics['name']} 'popularity' value must be an integer between"
-                "1 and 10"
-            )
+        # if (
+        #         type(self.attraction_characteristics["popularity"]) != int
+        #         or self.attraction_characteristics["popularity"] < 1
+        #         or self.attraction_characteristics["popularity"] > 10
+        # ):
+        #     raise AssertionError(
+        #         f"Attraction {self.attraction_characteristics['name']} 'popularity' value must be an integer between"
+        #         "1 and 10"
+        #     )
         self.initialize_attraction()
 
     def initialize_attraction(self):
