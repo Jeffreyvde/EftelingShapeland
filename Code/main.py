@@ -282,7 +282,7 @@ PLOT_RANGE = {
 }
 
 if __name__ == '__main__':
-    runs = 128
+    runs = 32
     print(f"Running the simulation {runs} times")
     results = run_multiple_simulations(runs, HOURLY_PERCENT, ATTRACTIONS, ACTIVITIES, PLOT_RANGE, TOTAL_DAILY_AGENTS, PERFECT_ARRIVALS, AGENT_ARCHETYPE_DISTRIBUTION, EXP_ABILITY_PCT, EXP_THRESHOLD, EXP_LIMIT)
     # Run simulations without

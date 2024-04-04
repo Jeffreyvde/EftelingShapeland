@@ -1,4 +1,4 @@
-from multiprocessing import cpu_count, Pool
+from multiprocessing import Pool
 from park_utils import *
 
 
@@ -25,7 +25,6 @@ def run_multiple_simulations(runs: int, hourly_percent, attractions, activities,
     """
     Run multiple park simulation with given number of hours on multiple threads
     """
-    print(f"Running simulation on {cpu_count()} cores")
 
     # Initialize simulator parameters
     simulation_data = []
@@ -38,5 +37,4 @@ def run_multiple_simulations(runs: int, hourly_percent, attractions, activities,
 
     # Run simulations
     with Pool() as pool:
-        sim_results = pool.starmap(simulate, simulation_data)
-    return sim_results
+        return pool.starmap(simulate, simulation_data)

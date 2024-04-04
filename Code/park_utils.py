@@ -42,3 +42,36 @@ def reduce_parks(parks):
     Reduce the parks to only hold the queue data.
     """
     return parks
+
+
+def get_average_wait_times(parks: list[Park]) -> dict[str, float]:
+    """
+    Get the average wait times from a set of parks
+    """
+    average_wait_times = {}
+
+    for park in parks:
+        average_wait_time_park = get_park_average_wait_times(park)
+        for attraction_name, average_wait_time in average_wait_time_park.items():
+            average_wait_times[attraction_name] = average_wait_time_park[attraction_name] + average_wait_time
+
+    for attraction_name in average_wait_times.keys():
+        average_wait_times[attraction_name] = average_wait_times[attraction_name] / len(parks)
+
+    return average_wait_times
+
+
+def get_park_average_wait_times(park: Park) -> dict[str, float]:
+    """
+    Get average wait times for rides in park
+    """
+    average_wait_times = {}
+    for attraction_name, attraction in park.attractions.items():
+        # Get wait times for attractions before the park closes
+        queue_wait_list = [
+            val for time, val in attraction.history["queue_wait_time"].items()
+            if time <= park.park_close
+        ]
+
+        average_wait_times[attraction_name] = sum(queue_wait_list) / len(queue_wait_list)
+    return average_wait_times
