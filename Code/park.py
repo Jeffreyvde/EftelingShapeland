@@ -108,7 +108,7 @@ class Park:
 
         if sum(behavior_archetype_distribution.values()) != 100:
             raise AssertionError(
-                "The percent of behavior archetypes does not add up to 100%"
+                f"The percent of behavior archetypes does not add up to 100% value is {sum(behavior_archetype_distribution.values())}"
             )
 
         total_agents = sum(self.schedule.values())
