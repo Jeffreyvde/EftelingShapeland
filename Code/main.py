@@ -18,26 +18,27 @@ HOURLY_PERCENT = {
     "11:00 PM": 0,
     "12:00 PM": 0
 }
-EXP_ABILITY_PCT = 1.0
+EXP_ABILITY_PCT = 0.7
 EXP_THRESHOLD = 1
-EXP_LIMIT = 3
+EXP_LIMIT = 1
 
 AGENT_ARCHETYPE_DISTRIBUTION = {
-    "ride_enthusiast": 0,
-    "ride_favorer": 15,
-    "park_tourer": 15,
-    "park_visitor": 50,
-    "activity_favorer": 10,
-    "activity_enthusiast": 10,
+    "ride_enthusiast": 10,
+    "ride_favorer": 0,
+    "park_tourer": 70,
+    "park_visitor": 0,
+    "activity_favorer": 20,
+    "activity_enthusiast": 0,
 }
+
 
 ATTRACTIONS = [
     {
         "name": "Python",
-        "run_time": 2,  # 2.133
+        "run_time": 2, #2.133
         "hourly_throughput": 1440,
-        "popularity": 7,  # 6.751
-        "expedited_queue": True,  #
+        "popularity": 6.875,
+        "expedited_queue": False,   #
         "expedited_queue_ratio": 0.99,
         "child_eligible": True,
         "adult_eligible": True,
@@ -47,8 +48,8 @@ ATTRACTIONS = [
         "name": "Joris en de Draak",
         "run_time": 2,
         "hourly_throughput": 1700,
-        "popularity": 9,  # 9.163
-        "expedited_queue": True,  #
+        "popularity": 9.113,
+        "expedited_queue": False,   #
         "expedited_queue_ratio": 0.99,
         "child_eligible": True,
         "adult_eligible": True,
@@ -56,10 +57,10 @@ ATTRACTIONS = [
     },
     {
         "name": "Vliegende Hollander",
-        "run_time": 4,  # 3.7167
+        "run_time": 4, #3.7167
         "hourly_throughput": 1900,
         "popularity": 10,
-        "expedited_queue": True,  #
+        "expedited_queue": False,  #
         "expedited_queue_ratio": 0.99,
         "child_eligible": True,
         "adult_eligible": True,
@@ -67,9 +68,9 @@ ATTRACTIONS = [
     },
     {
         "name": "Baron 1898",
-        "run_time": 2,  # 2.16666666666
+        "run_time": 2, #2.16666666666
         "hourly_throughput": 900,
-        "popularity": 4,  # 4.490
+        "popularity": 4.756,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -80,18 +81,18 @@ ATTRACTIONS = [
         "name": "Kinderspoor",
         "run_time": 2,
         "hourly_throughput": 420,
-        "popularity": 1,  # 1.096
+        "popularity": 1.176,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
-        "adult_eligible": False,
+        "adult_eligible": True,
         "expected_wait_time": 21,
     },
     {
         "name": "De oude tufferbaan",
         "run_time": 4,
         "hourly_throughput": 1200,
-        "popularity": 5,  # 5.083
+        "popularity": 4.774,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -102,7 +103,7 @@ ATTRACTIONS = [
         "name": "Halve maan",
         "run_time": 3,
         "hourly_throughput": 1200,
-        "popularity": 5,  # 4.698
+        "popularity": 4.856,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -111,10 +112,10 @@ ATTRACTIONS = [
     },
     {
         "name": "Pirana",
-        "run_time": 7,  # 6.5
+        "run_time": 7, #6.5
         "hourly_throughput": 2000,
-        "popularity": 9,  # 8.954
-        "expedited_queue": True,  #
+        "popularity": 8.897,
+        "expedited_queue": False,   #
         "expedited_queue_ratio": 0.99,
         "child_eligible": True,
         "adult_eligible": True,
@@ -122,9 +123,9 @@ ATTRACTIONS = [
     },
     {
         "name": "Max & Moritz",
-        "run_time": 2,  # 1.5
+        "run_time": 2, #1.5
         "hourly_throughput": 1800,
-        "popularity": 8,  # 8.194
+        "popularity": 8.363,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -135,7 +136,7 @@ ATTRACTIONS = [
         "name": "Fata Morgana",
         "run_time": 8,
         "hourly_throughput": 1600,
-        "popularity": 7,  # 7.306
+        "popularity": 6.47,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -146,7 +147,7 @@ ATTRACTIONS = [
         "name": "Fabula",
         "run_time": 17,
         "hourly_throughput": 1760,
-        "popularity": 7,  # 6.587
+        "popularity": 6.087,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -157,7 +158,7 @@ ATTRACTIONS = [
         "name": "Volk_van_Laaf_(Monorail)",
         "run_time": 7,
         "hourly_throughput": 425,
-        "popularity": 1,  # 1.391
+        "popularity": 1.390,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -179,7 +180,7 @@ ATTRACTIONS = [
         "name": "Droomvlucht",
         "run_time": 6,
         "hourly_throughput": 1775,
-        "popularity": 8,  # 8.233
+        "popularity": 8.447,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -190,7 +191,7 @@ ATTRACTIONS = [
         "name": "Villa_Volta",
         "run_time": 10,
         "hourly_throughput": 1200,
-        "popularity": 5,  # 4.698
+        "popularity": 4.511,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -201,7 +202,7 @@ ATTRACTIONS = [
         "name": "Sirocco",
         "run_time": 8,
         "hourly_throughput": 1000,
-        "popularity": 4,  # 3.502
+        "popularity": 4, #3.502
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -210,9 +211,9 @@ ATTRACTIONS = [
     },
     {
         "name": "Vogel_Rok",
-        "run_time": 2,  # 1.520
+        "run_time": 2, #1.520
         "hourly_throughput": 1600,
-        "popularity": 7,  # 6.709
+        "popularity": 6.680,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -223,7 +224,7 @@ ATTRACTIONS = [
         "name": "Carnaval_Festival",
         "run_time": 8,
         "hourly_throughput": 1750,
-        "popularity": 7,  # 7.482
+        "popularity": 7.062,
         "expedited_queue": False,
         "expedited_queue_ratio": 0.8,
         "child_eligible": True,
@@ -234,8 +235,8 @@ ATTRACTIONS = [
         "name": "Symbolica",
         "run_time": 10,
         "hourly_throughput": 1400,
-        "popularity": 7,  # 6.773
-        "expedited_queue": True,  #
+        "popularity": 6.779,
+        "expedited_queue": False,  #
         "expedited_queue_ratio": 0.99,
         "child_eligible": True,
         "adult_eligible": True,

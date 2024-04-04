@@ -1,4 +1,5 @@
 from park import Park
+from enum import Enum
 
 
 def create_park(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
@@ -37,11 +38,27 @@ def create_park(seed: int, hourly_percent, attractions, activities, plot_range, 
     return under_construction_park
 
 
-def reduce_parks(parks):
+def reduce_park(park: Park, remove_agents: bool, remove_attractions: bool) -> Park:
     """
     Reduce the parks to only hold the queue data.
     """
-    return parks
+
+    # Simplify park
+    park.attraction_list = None
+    park.activity_list = None
+    park.plot_range = None
+    park.version = None
+    park.schedule = None
+    park.activities = None
+    park.history = None
+
+    if remove_agents:
+        park.agents = None
+
+    if remove_attractions:
+        park.attractions = None
+
+    return park
 
 
 def get_average_wait_times(parks: list[Park]) -> dict[str, float]:
@@ -51,9 +68,9 @@ def get_average_wait_times(parks: list[Park]) -> dict[str, float]:
     average_wait_times = {}
 
     for park in parks:
-        average_wait_time_park = get_park_average_wait_times(park)
-        for attraction_name, average_wait_time in average_wait_time_park.items():
-            average_wait_times[attraction_name] = average_wait_time_park[attraction_name] + average_wait_time
+        park_wait_time = get_park_average_wait_times(park)
+        for attraction_name, average_wait_time in park_wait_time.items():
+            average_wait_times[attraction_name] = average_wait_times.get(attraction_name, 0) + average_wait_time
 
     for attraction_name in average_wait_times.keys():
         average_wait_times[attraction_name] = average_wait_times[attraction_name] / len(parks)

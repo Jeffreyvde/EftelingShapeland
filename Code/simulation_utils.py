@@ -3,7 +3,8 @@ from park_utils import *
 
 
 def simulate(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
-             agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit):
+             agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit, simplify_park, remove_agents,
+             remove_attractions):
     """
     Simulate a set of parks with a given number of hours
     """
@@ -16,12 +17,14 @@ def simulate(seed: int, hourly_percent, attractions, activities, plot_range, tot
         park.step()
 
     print(f"Simulated park with {seed}")
+    if simplify_park:
+        park = reduce_park(park, remove_agents, remove_attractions)
     return park
 
 
 def run_multiple_simulations(runs: int, hourly_percent, attractions, activities, plot_range, total_daily_agents,
-                             perfect_arrivals,
-                             agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit):
+                             perfect_arrivals, agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit,
+                             simplify_park: bool = False, remove_agents: bool = False, remove_attractions: bool = False):
     """
     Run multiple park simulation with given number of hours on multiple threads
     """
@@ -29,7 +32,8 @@ def run_multiple_simulations(runs: int, hourly_percent, attractions, activities,
     # Initialize simulator parameters
     simulation_data = []
     run_info = (0, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
-                agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit)
+                agent_archetype_distribution, exp_ability_pct, exp_threshold, exp_limit, simplify_park, remove_agents,
+                remove_attractions)
     seed_multiplier = 1000
     for i in range(runs):
         run_information = (i * seed_multiplier,) + run_info[1:]
