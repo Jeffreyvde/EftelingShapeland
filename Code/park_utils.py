@@ -1,5 +1,4 @@
 from park import Park
-from enum import Enum
 
 
 def create_park(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
