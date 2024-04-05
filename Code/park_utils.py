@@ -40,6 +40,7 @@ def create_park(seed: int, hourly_percent, attractions, activities, plot_range, 
 def reduce_park(park: Park, remove_agents: bool, remove_attractions: bool) -> Park:
     """
     Reduce the parks to only hold the queue data.
+    Should only be used after running the simulation.
     """
 
     # Simplify park
