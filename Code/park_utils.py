@@ -1,5 +1,6 @@
 from park import *
 from typing import Tuple
+import statistics
 
 
 def create_park(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
@@ -98,31 +99,13 @@ def get_park_mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
     """
     Get the mean and standard deviation attraction visits in a park.
     """
-    attraction_counter = []
-    for agent_id, agent in park.agents.items():
-        attraction_counter.append(
-            {
-                "Agent": agent_id,
-                "Behavior": agent.behavior["archetype"],
-                "Total Attractions Visited": sum(
-                    attraction['times_completed'] for attraction in agent.state["attractions"].values()
-                )
-            }
-        )
-        
-    df = pd.DataFrame(attraction_counter)
-    x="Total Attractions Visited"
-    disp_df = pd.DataFrame(df[x].describe()).reset_index()
-    disp_df.columns = ["Metric", x]
-
-    mean_row = disp_df[disp_df['Metric'] == 'mean']
-    mean_value = mean_row["Total Attractions Visited"].values[0]
+    total_attractions_visited = [
+        sum(attraction['times_completed'] for attraction in agent.state["attractions"].values())
+        for agent_id, agent in park.agents.items()
+    ]
     
-    std_row = disp_df[disp_df['Metric'] == 'std']
-    std_value = std_row["Total Attractions Visited"].values[0]
-    
-    print(f"Mean Total Attractions Visited: {mean_value:.2f}")
-    print(f"STD Total Attractions Visited: {std_value:.2f}")
+    mean_value = statistics.mean(total_attractions_visited)
+    std_value = statistics.stdev(total_attractions_visited)
 
     return mean_value, std_value
 
@@ -133,7 +116,7 @@ def get_mean_and_std_attraction_visits(parks: list[Park]) -> Tuple[float, float]
     means_list = []
     stds_list = []
     for park in parks:
-        mean, std = get_mean_and_std_attraction_visits(park)
+        mean, std = get_park_mean_and_std_attraction_visits(park)
         means_list.append(mean)
         stds_list.append(std)
     
