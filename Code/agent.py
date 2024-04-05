@@ -6,12 +6,13 @@ from behavior_reference import BEHAVIOR_ARCHETYPE_PARAMETERS
 class Agent:
     """ Class which defines agents within the park simulation. Stores agent characteristics, current state and log. """
 
-    def __init__(self, random_seed):
+    def __init__(self, random_seed, keep_log: bool = False):
         """  """
 
         self.agent_id = None # unique identification number for agent
         self.state = {} # characterizes agents current state
         self.log = "" # logs agent history as text
+        self.keep_log = keep_log
         self.random_seed = random_seed
 
         for behavior_type, behavior_dict in BEHAVIOR_ARCHETYPE_PARAMETERS.items():
@@ -141,7 +142,9 @@ class Agent:
         self.state["current_location"] = "gate"
         self.state["current_action"] = "idling"
         self.state["time_spent_at_current_location"] = 0
-        self.log += f"Agent arrived at park at time {time}. "
+
+        if self.keep_log:
+            self.log += f"Agent arrived at park at time {time}. "
 
     def make_state_change_decision(self, attractions_dict, activities_dict, time, park_closed):
         """  When an agent is idle allow them to make a decison about what to do next. """
@@ -351,7 +354,8 @@ class Agent:
         self.state["current_action"] = None
         self.state["exit_time"] = time
         self.state["time_spent_at_current_location"] = 0
-        self.log += f"Agent left park at {time}. "
+        if self.keep_log:
+            self.log += f"Agent left park at {time}. "
 
     def enter_queue(self, attraction, time):
         """ Updates agent state when they enter an attraction queue """
@@ -359,7 +363,9 @@ class Agent:
         self.state["current_location"] = attraction
         self.state["current_action"] = "queueing"
         self.state["time_spent_at_current_location"] = 0
-        self.log += f"Agent entered queue for {attraction} at time {time}. "
+
+        if self.keep_log:
+            self.log += f"Agent entered queue for {attraction} at time {time}. "
 
     def begin_activity(self, activity, time):
         """ Updates agent state when they visit an activity """
@@ -367,7 +373,8 @@ class Agent:
         self.state["current_location"] = activity
         self.state["current_action"] = "browsing"
         self.state["time_spent_at_current_location"] = 0
-        self.log += f"Agent visited the activity {activity} at time {time}. "
+        if self.keep_log:
+            self.log += f"Agent visited the activity {activity} at time {time}. "
 
     def get_pass(self, attraction, time):
         """ Updates agent state when the get a pass """
@@ -376,18 +383,20 @@ class Agent:
         self.state["current_action"] = "getting pass"
         self.state["expedited_pass"].append(attraction)
         self.state["time_spent_at_current_location"] = 0
-        self.log += (
-            f"Agent picked up an expedited pass for {attraction} at time {time}. "
-        )
+        if self.keep_log:
+            self.log += (
+                f"Agent picked up an expedited pass for {attraction} at time {time}. "
+            )
     
     def assign_expedited_return_time(self, expedited_wait_time):
         """ Updates agent state when are assigned a return time to their expedited attraction """
 
         self.state["expedited_return_time"].append(expedited_wait_time)
         self.state["current_action"] = "idling"
-        self.log += (
-            f"The estimated expedited queue wait time is {expedited_wait_time} minutes. "
-        )
+        if self.keep_log:
+            self.log += (
+               f"The estimated expedited queue wait time is {expedited_wait_time} minutes. "
+            )
         
     def return_exp_pass(self, attraction):
         """ Updates agent state when they leave park before using the pass """
@@ -399,10 +408,10 @@ class Agent:
 
         del self.state["expedited_pass"][ind_to_remove]
         del self.state["expedited_return_time"][ind_to_remove]
-
-        self.log += (
-            f"Agent decided to leave park and returned the expedited pass. "
-        )
+        if self.keep_log:
+            self.log += (
+                f"Agent decided to leave park and returned the expedited pass. "
+            )
 
     def agent_exited_attraction(self, name, time):
         """ Update agents state after they leave an attraction """
@@ -412,7 +421,9 @@ class Agent:
         self.state["attractions"][name]["times_completed"] += 1
         self.state["time_spent_at_current_location"] = 0
 
-        self.log += f"Agent exited {name} at time {time}. "
+        if self.keep_log:
+            self.log += f"Agent exited {name} at time {time}. "
+
 
     def agent_boarded_attraction(self, name, time):
         """ Update agents state after they board an attraction """
@@ -429,15 +440,17 @@ class Agent:
             self.state["current_location"] = name
             self.state["current_action"] = "riding"
             self.state["time_spent_at_current_location"] = 0
-            self.log += (
-                f"Agent boarded {name} and redeemed their expedited queue pass at time {time}. "
-            )
+            if self.keep_log:
+                self.log += (
+                    f"Agent boarded {name} and redeemed their expedited queue pass at time {time}. "
+                )
             return True
         else:
             self.state["current_location"] = name
             self.state["current_action"] = "riding"
             self.state["time_spent_at_current_location"] = 0
-            self.log += f"Agent boarded {name} at time {time}. "
+            if self.keep_log:
+                self.log += f"Agent boarded {name} at time {time}. "
             return False
 
     def agent_exited_activity(self, name, time):
@@ -447,4 +460,5 @@ class Agent:
         self.state["current_action"] = "idling"
         self.state["activities"][name]["times_visited"] += 1
         self.state["time_spent_at_current_location"] = 0
-        self.log += f"Agent exited the activity {name} at time {time}. "
+        if self.keep_log:
+            self.log += f"Agent exited the activity {name} at time {time}. "
