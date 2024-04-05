@@ -1,4 +1,5 @@
-from park import Park
+from park import *
+from typing import Tuple
 
 
 def create_park(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
@@ -92,3 +93,51 @@ def get_park_average_wait_times(park: Park) -> dict[str, float]:
 
         average_wait_times[attraction_name] = sum(queue_wait_list) / len(queue_wait_list)
     return average_wait_times
+
+def get_park_mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
+    """
+    Get the mean and standard deviation attraction visits in a park.
+    """
+    attraction_counter = []
+    for agent_id, agent in park.agents.items():
+        attraction_counter.append(
+            {
+                "Agent": agent_id,
+                "Behavior": agent.behavior["archetype"],
+                "Total Attractions Visited": sum(
+                    attraction['times_completed'] for attraction in agent.state["attractions"].values()
+                )
+            }
+        )
+        
+    df = pd.DataFrame(attraction_counter)
+    x="Total Attractions Visited"
+    disp_df = pd.DataFrame(df[x].describe()).reset_index()
+    disp_df.columns = ["Metric", x]
+
+    mean_row = disp_df[disp_df['Metric'] == 'mean']
+    mean_value = mean_row["Total Attractions Visited"].values[0]
+    
+    std_row = disp_df[disp_df['Metric'] == 'std']
+    std_value = std_row["Total Attractions Visited"].values[0]
+    
+    print(f"Mean Total Attractions Visited: {mean_value:.2f}")
+    print(f"STD Total Attractions Visited: {std_value:.2f}")
+
+    return mean_value, std_value
+
+def get_mean_and_std_attraction_visits(parks: list[Park]) -> Tuple[float, float]:
+    """
+    Get the mean and standard deviation of attraction visits for multiple parks.
+    """
+    means_list = []
+    stds_list = []
+    for park in parks:
+        mean, std = get_mean_and_std_attraction_visits(park)
+        means_list.append(mean)
+        stds_list.append(std)
+    
+    mean_all_parks = np.mean(means_list)
+    std_all_parks = np.mean(stds_list)
+
+    return mean_all_parks, std_all_parks
