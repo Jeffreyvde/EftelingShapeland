@@ -1,4 +1,6 @@
-from park import Park
+from park import *
+from typing import Tuple
+import statistics
 
 
 def create_park(seed: int, hourly_percent, attractions, activities, plot_range, total_daily_agents, perfect_arrivals,
@@ -92,3 +94,35 @@ def get_park_average_wait_times(park: Park) -> dict[str, float]:
 
         average_wait_times[attraction_name] = sum(queue_wait_list) / len(queue_wait_list)
     return average_wait_times
+
+
+def get__mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
+    """
+    Get the mean and standard deviation attraction visits in a park.
+    """
+    total_attractions_visited = [
+        sum(attraction['times_completed'] for attraction in agent.state["attractions"].values())
+        for agent_id, agent in park.agents.items()
+    ]
+
+    mean_value = statistics.mean(total_attractions_visited)
+    std_value = statistics.stdev(total_attractions_visited)
+
+    return mean_value, std_value
+
+
+def average_means_and_stds_for_attraction_visits(parks: list[Park]) -> Tuple[float, float]:
+    """
+    Get the mean and standard deviation of attraction visits for multiple parks.
+    """
+    means_list = []
+    stds_list = []
+    for park in parks:
+        mean, std = get__mean_and_std_attraction_visits(park)
+        means_list.append(mean)
+        stds_list.append(std)
+
+    mean_all_parks = np.mean(means_list)
+    std_all_parks = np.mean(stds_list)
+
+    return mean_all_parks, std_all_parks
