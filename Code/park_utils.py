@@ -149,12 +149,12 @@ def calculate_z_prime_score(std: float, sample_mean: float, expected_mean: float
 
 def calculate_automatic_z_prime_score(parks: list[Park], expected_mean: float) -> float :
     """
-    Calculates the z prime score for a list of parks
+    Calculates the z prime score for a list of parks based on the expected_mean
     """
     samples = len(parks)
     mean_and_std_tuple = average_means_and_stds_for_attraction_visits(parks)
     sample_mean = mean_and_std_tuple[0]
-    std = mean_and_std_tuple[1]
-
+    std = get_std_for_means_attraction_visits(parks)
     z_prime = (math.sqrt(samples) * (sample_mean - expected_mean)) / (std)
+
     return z_prime
