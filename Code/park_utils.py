@@ -1,5 +1,6 @@
 from park import *
 from typing import Tuple
+import math
 import statistics
 
 
@@ -126,3 +127,22 @@ def average_means_and_stds_for_attraction_visits(parks: list[Park]) -> Tuple[flo
     std_all_parks = np.mean(stds_list)
 
     return mean_all_parks, std_all_parks
+
+def calculate_z_prime_score(std: float, sample_mean: float, expected_mean: float, samples: int) -> float :
+    """
+    Calculates the z prime score for with manually configured variables 
+    """
+    z_prime = math.sqrt(samples) (sample_mean - expected_mean) / (std)
+    return z_prime
+
+def calculate_automatic_z_prime_score(parks: list[Park], expected_mean: float) -> float :
+    """
+    Calculates the z prime score for a list of parks
+    """
+    samples = len(parks)
+    mean_and_std_tuple = average_means_and_stds_for_attraction_visits(parks)
+    sample_mean = mean_and_std_tuple[0]
+    std = mean_and_std_tuple[1]
+
+    z_prime = (math.sqrt(samples) * (sample_mean - expected_mean)) / (std)
+    return z_prime
