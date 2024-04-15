@@ -96,7 +96,7 @@ def get_park_average_wait_times(park: Park) -> dict[str, float]:
     return average_wait_times
 
 
-def get__mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
+def get_mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
     """
     Get the mean and standard deviation attraction visits in a park.
     """
@@ -113,12 +113,12 @@ def get__mean_and_std_attraction_visits(park: Park) -> Tuple[float, float]:
 
 def average_means_and_stds_for_attraction_visits(parks: list[Park]) -> Tuple[float, float]:
     """
-    Get the mean and standard deviation of attraction visits for multiple parks.
+    Get the mean for the mean and std attraction visits for multiple parks.
     """
     means_list = []
     stds_list = []
     for park in parks:
-        mean, std = get__mean_and_std_attraction_visits(park)
+        mean, std = get_mean_and_std_attraction_visits(park)
         means_list.append(mean)
         stds_list.append(std)
 
@@ -126,3 +126,15 @@ def average_means_and_stds_for_attraction_visits(parks: list[Park]) -> Tuple[flo
     std_all_parks = np.mean(stds_list)
 
     return mean_all_parks, std_all_parks
+
+
+def get_std_for_means_attraction_visits(parks: list[Park]) -> float:
+    """
+    Get the standard deviation for the mean attraction visits for multiple parks.
+    """
+    means_list = []
+    for park in parks:
+        mean, std = get_mean_and_std_attraction_visits(park)
+        means_list.append(mean)
+
+    return statistics.stdev(means_list)
