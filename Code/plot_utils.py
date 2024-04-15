@@ -44,3 +44,21 @@ def make_bar_plot(dict_list, figure_size: tuple[float, float], x, y, hue, y_max,
     if not show:
         plt.close()
 
+
+def make_scatter_plot(dict_list, figure_size: tuple[float, float], x, y, hue, title, location, show: bool = False,
+                      y_settings: tuple[float, float] = None):
+    """
+    Create a hued scatter plot derived from a list of dictionaries
+    """
+
+    df = pd.DataFrame(dict_list)
+    plt.figure(figsize=figure_size)
+    ax = sns.lmplot(data=df, x=x, y=y, hue=hue)
+    if y_settings:
+        ax.set(ylim=(y_settings[0], y_settings[1]))
+    ax.set(title=title)
+    plt.savefig(location, transparent=False, facecolor="white", bbox_inches="tight")
+    plt.savefig(f"{location} Transparent", transparent=True, bbox_inches="tight")
+    plt.show()
+    if not show:
+        plt.close()
